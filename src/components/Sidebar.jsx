@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import useStore from '../store/useStore';
 
 const Sidebar = ({ onChapterSelect, searchQuery }) => {
   const [expandedSections, setExpandedSections] = useState({});
   const [hoveredSection, setHoveredSection] = useState(null);
+  const { collapsed } = useStore();
 
   // Dữ liệu mẫu cho cẩm nang công an
   const handbookData = [
@@ -87,7 +89,7 @@ const Sidebar = ({ onChapterSelect, searchQuery }) => {
     : handbookData;
 
   return (
-    <div className="w-[350px] bg-gradient-to-b from-gray-50 to-gray-100 border-r-3 border-[#c41e3a] h-[calc(100vh-100px)] overflow-y-auto shadow-[2px_0_15px_rgba(0,0,0,0.15)] scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-[#c41e3a] hover:scrollbar-thumb-[#8b0000] md:max-h-none max-h-[300px] md:w-[350px] w-full">
+    <div className={`w-[350px] bg-gradient-to-b from-gray-50 to-gray-100 border-r-3 border-[#c41e3a] h-[calc(100vh-100px)] overflow-y-auto shadow-[2px_0_15px_rgba(0,0,0,0.15)] scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-[#c41e3a] hover:scrollbar-thumb-[#8b0000] md:max-h-none max-h-[300px] md:w-[350px] w-full transition-all duration-300 ${collapsed ? 'w-0 opacity-0' : 'w-[350px] opacity-100'}`}>
       <div className="sticky top-0 z-10 p-6 bg-gradient-to-br from-[#c41e3a] to-[#8b0000] text-white border-b-2 border-[#8b0000] shadow-lg">
         <h2 className="m-0 text-[1.5rem] font-bold drop-shadow-[2px_2px_4px_rgba(0,0,0,0.3)] flex items-center">
           <span className="mr-3">📚</span>
@@ -129,7 +131,7 @@ const Sidebar = ({ onChapterSelect, searchQuery }) => {
             
             {expandedSections[section.id] && (
               <div className="bg-gray-50/80 backdrop-blur-sm border-t border-gray-100">
-                {section.chapters.map((chapter, index) => (
+                {section.chapters.map((chapter) => (
                   <div 
                     key={chapter.id}
                     className="relative pl-12 pr-4 py-3.5 cursor-pointer transition-all duration-300 border-b border-gray-100 last:border-b-0 hover:bg-gradient-to-r hover:from-[#c41e3a]/10 hover:to-transparent group"

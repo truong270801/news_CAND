@@ -32,7 +32,7 @@ class BookErrorBoundary extends React.Component {
 const Book = ({ selectedChapter }) => {
   const bookRef = useRef();
   const [isMounted, setIsMounted] = useState(false);
-  const [isDestroyed, setIsDestroyed] = useState(false);
+  const [key, setKey] = useState(0);
 
   useEffect(() => {
     setIsMounted(true);
@@ -44,19 +44,22 @@ const Book = ({ selectedChapter }) => {
           console.error('Error destroying book:', error);
         }
       }
-      setIsDestroyed(true);
     };
   }, []);
 
   useEffect(() => {
-    if (selectedChapter && bookRef.current && !isDestroyed) {
-      try {
-        bookRef.current.pageFlip().turnToPage(0);
-      } catch (error) {
-        console.error('Error turning page:', error);
-      }
+    if (selectedChapter) {
+      setKey(prev => prev + 1);
     }
-  }, [selectedChapter, isDestroyed]);
+  }, [selectedChapter]);
+
+  const onFlip = useCallback((e) => {
+    console.log('Current page:', e.data);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   const Page = React.forwardRef((props, ref) => {
     const isCover = props.number === 1;
@@ -73,7 +76,7 @@ const Book = ({ selectedChapter }) => {
           <div className="welcome-content animate-fade-in">
             <div className="welcome-icon text-6xl mb-6 transform hover:scale-110 transition-transform duration-300">📚</div>
             <h2 className="text-3xl font-bold mb-6 text-gray-800">Chào mừng đến với Cẩm nang Điện tử</h2>
-            <p className="mb-8 text-lg text-gray-600">Hãy chọn một chương từ mục lục bên trái để bắt đầu đọc</p>
+            <p className="mb-1 text-lg text-gray-600">Hãy chọn một chương từ mục lục bên trái để bắt đầu đọc</p>
             <div className="police-emblem bg-white p-6 rounded-full shadow-lg">
               <div className="emblem-star text-4xl mb-2">⭐</div>
               <div className="emblem-text font-bold text-xl text-gray-800">CÔNG AN NHÂN DÂN</div>
@@ -82,17 +85,17 @@ const Book = ({ selectedChapter }) => {
         ) : isCover ? (
           <div className="cover-design text-white">
             <div className="cover-title text-4xl font-bold mb-6 tracking-wider">CẨM NANG ĐIỆN TỬ</div>
-            <div className="cover-subtitle text-2xl mb-8">CÔNG AN NHÂN DÂN VIỆT NAM</div>
-            <div className="cover-emblem text-6xl mb-8 transform hover:rotate-12 transition-transform duration-300">⭐</div>
-            <div className="cover-year text-2xl font-light">2024</div>
-            <div className="mt-12 text-sm opacity-75">Phiên bản 1.0</div>
+            <div className="cover-subtitle text-2xl mb-1">CÔNG AN NHÂN DÂN VIỆT NAM</div>
+            <div className="cover-emblem text-6xl mb-1 transform hover:rotate-12 transition-transform duration-300">⭐</div>
+            
+           
           </div>
         ) : (
           <div className="chapter-content">
-            <div className="chapter-header mb-8 bg-gray-50 p-4 rounded-lg">
+            <div className="chapter-header mb-1 bg-gray-50 p-2 rounded-lg">
               <div className="chapter-icon text-4xl mb-3">{selectedChapter?.sectionIcon}</div>
               <div className="chapter-info">
-                <h1 className="text-2xl font-bold mb-2 text-gray-800">{selectedChapter?.title}</h1>
+                <h1 className="text-xl font-bold mb-2 text-gray-800">{selectedChapter?.title}</h1>
                 <p className="section-name text-gray-600">{selectedChapter?.sectionTitle}</p>
               </div>
             </div>
@@ -103,9 +106,9 @@ const Book = ({ selectedChapter }) => {
               {props.number === 1 && (
                 <div className="page-content">
                   <h2 className="text-2xl font-bold mb-6 text-gray-800">Giới thiệu</h2>
-                  <p className="mb-8 text-gray-700 leading-relaxed">{selectedChapter?.content}</p>
+                  <p className="mb-1 text-gray-700 leading-relaxed">{selectedChapter?.content}</p>
                   
-                  <div className="content-section mb-8 bg-blue-50 p-6 rounded-lg">
+                  <div className="content-section mb-1 bg-blue-50 p-6 rounded-lg">
                     <h3 className="text-xl font-semibold mb-4 text-blue-800">Mục tiêu học tập</h3>
                     <ul className="list-disc pl-6 space-y-2 text-gray-700">
                       <li>Nắm vững các kiến thức cơ bản về {selectedChapter?.title.toLowerCase()}</li>
@@ -120,13 +123,13 @@ const Book = ({ selectedChapter }) => {
                 <div className="page-content">
                   <h2 className="text-2xl font-bold mb-6 text-gray-800">Chi tiết nội dung</h2>
                   
-                  <div className="content-section mb-8 bg-green-50 p-6 rounded-lg">
+                  <div className="content-section mb-1 bg-green-50 p-6 rounded-lg">
                     <h3 className="text-xl font-semibold mb-4 text-green-800">1. Khái niệm và ý nghĩa</h3>
                     <p className="text-gray-700 leading-relaxed">Đây là phần giải thích chi tiết về khái niệm và ý nghĩa của {selectedChapter?.title.toLowerCase()} 
                        trong hệ thống công tác của Công an nhân dân Việt Nam.</p>
                   </div>
 
-                  <div className="content-section mb-8 bg-yellow-50 p-6 rounded-lg">
+                  <div className="content-section mb-1 bg-yellow-50 p-6 rounded-lg">
                     <h3 className="text-xl font-semibold mb-4 text-yellow-800">2. Các nguyên tắc cơ bản</h3>
                     <ul className="list-disc pl-6 space-y-2 text-gray-700">
                       <li>Tuân thủ pháp luật và quy định của Đảng, Nhà nước</li>
@@ -142,7 +145,7 @@ const Book = ({ selectedChapter }) => {
                 <div className="page-content">
                   <h2 className="text-2xl font-bold mb-6 text-gray-800">Thực hành và ứng dụng</h2>
                   
-                  <div className="content-section mb-8 bg-purple-50 p-6 rounded-lg">
+                  <div className="content-section mb-1 bg-purple-50 p-6 rounded-lg">
                     <h3 className="text-xl font-semibold mb-4 text-purple-800">Các bước thực hiện</h3>
                     <ol className="list-decimal pl-6 space-y-3 text-gray-700">
                       <li>Chuẩn bị đầy đủ tài liệu, hồ sơ cần thiết</li>
@@ -169,22 +172,13 @@ const Book = ({ selectedChapter }) => {
     );
   });
 
-  const onFlip = useCallback((e) => {
-    if (!isDestroyed) {
-      console.log('Current page:', e.data);
-    }
-  }, [isDestroyed]);
-
-  if (!isMounted || isDestroyed) {
-    return null;
-  }
-
   return (
     <BookErrorBoundary>
       <div className="perspective-1000 bg-gradient-to-br from-[#8B4513] to-[#654321] rounded-lg shadow-2xl mx-auto w-full p-8">
         <HTMLFlipBook
+          key={key}
           width={550}
-          height={600}
+          height={800}
           size="stretch"
           minWidth={315}
           maxWidth={1000}

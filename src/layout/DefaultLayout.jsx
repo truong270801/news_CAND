@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
+import useStore from '../store/useStore';
 
 const DefaultLayout = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(false);
-
-  const toggleSidebar = () => {
-    setCollapsed(!collapsed);
-  };
+  const { collapsed, toggleSidebar, searchQuery, setSearchQuery, setSelectedChapter } = useStore();
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header toggleSidebar={toggleSidebar} />
+      <Header toggleSidebar={toggleSidebar} onSearch={setSearchQuery} />
       <div className="flex-1 flex">
-        <Sidebar collapsed={collapsed} />
+        <Sidebar collapsed={collapsed} searchQuery={searchQuery} onChapterSelect={setSelectedChapter} />
         <div className="flex-1 flex flex-col">
           <main className="flex-1 p-6 bg-gray-50 max-h-screen mt-2 ">
             {children}
           </main>
-      
         </div>
       </div>
     </div>
