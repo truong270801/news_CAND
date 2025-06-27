@@ -33,6 +33,10 @@ const Book = ({ selectedChapter }) => {
   const bookRef = useRef();
   const [isMounted, setIsMounted] = useState(false);
   const [key, setKey] = useState(0);
+  const [isReading, setIsReading] = useState(false);
+  const [speechRate, setSpeechRate] = useState(1);
+  const synthRef = useRef(window.speechSynthesis);
+  const utteranceRef = useRef(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -44,6 +48,7 @@ const Book = ({ selectedChapter }) => {
           console.error('Error destroying book:', error);
         }
       }
+      if (synthRef.current) synthRef.current.cancel();
     };
   }, []);
 
@@ -57,6 +62,20 @@ const Book = ({ selectedChapter }) => {
     console.log('Current page:', e.data);
   }, []);
 
+  const handleReadText = (text) => {
+    if (!text) return;
+    if (synthRef.current.speaking) {
+      synthRef.current.cancel();
+      setIsReading(false);
+      return;
+    }
+    utteranceRef.current = new window.SpeechSynthesisUtterance(text);
+    utteranceRef.current.rate = speechRate;
+    utteranceRef.current.onend = () => setIsReading(false);
+    synthRef.current.speak(utteranceRef.current);
+    setIsReading(true);
+  };
+
   if (!isMounted) {
     return null;
   }
@@ -67,31 +86,41 @@ const Book = ({ selectedChapter }) => {
     
     return (
       <div 
-        className={`page ${isCover ? 'bg-gradient-to-br from-red-600 to-red-800' : 'bg-white'} 
-          p-10 text-center flex flex-col justify-center items-center h-full box-border
-          shadow-lg hover:shadow-xl transition-shadow duration-300`} 
+        className={`page relative ${isCover ? 'bg-gradient-to-br from-red-600 to-red-800' : 'bg-white'} 
+          p-8 text-center flex flex-col justify-center items-center h-full box-border
+          shadow-lg hover:shadow-2xl transition-shadow duration-300
+          page-thick-effect`}
         ref={ref}
+        style={{
+          borderRadius: '12px',
+          boxShadow: isCover
+            ? '0 8px 24px 0 rgba(139,69,19,0.4), 0 1.5px 0 0 #a0522d inset'
+            : '0 4px 16px 0 rgba(0,0,0,0.10), 0 0.5px 0 0 #e0e0e0 inset',
+          transform: isCover ? 'perspective(600px) rotateY(-3deg)' : 'perspective(600px) rotateY(1deg)',
+          borderLeft: !isCover ? '8px solid #e5e7eb' : undefined,
+        }}
       >
+        {!isCover && <div className="absolute left-0 top-0 h-full w-2 bg-gradient-to-r from-gray-300 to-transparent rounded-l-lg" style={{zIndex:2}}></div>}
+        {!isCover && <div className="absolute right-0 top-0 h-full w-2 bg-gradient-to-l from-gray-300 to-transparent rounded-r-lg" style={{zIndex:2}}></div>}
         {isWelcome ? (
           <div className="welcome-content animate-fade-in">
-            <div className="welcome-icon text-6xl mb-6 transform hover:scale-110 transition-transform duration-300">📚</div>
-            <h2 className="text-3xl font-bold mb-6 text-gray-800">Chào mừng đến với Cẩm nang Điện tử</h2>
-            <p className="mb-1 text-lg text-gray-600">Hãy chọn một chương từ mục lục bên trái để bắt đầu đọc</p>
-            <div className="police-emblem bg-white p-6 rounded-full shadow-lg">
-              <div className="emblem-star text-4xl mb-2">⭐</div>
-              <div className="emblem-text font-bold text-xl text-gray-800">CÔNG AN NHÂN DÂN</div>
+            <h2 className="text-4xl text-white font-bold mb-6 uppercase">Cẩm nang Điện tử</h2>
+            <div className="emblem-text font-bold text-xl text-white mb-8">CÔNG AN NHÂN DÂN VIỆT NAM</div>
+
+            <div className="police-emblem max-w-[60%] mx-auto w-full  p-6 rounded-full shadow-2xl">
+              <div className="emblem-star  flex justify-center text-4xl mb-2"><img className='w-24 h-24' src="/star.svg" alt="" /></div>
             </div>
           </div>
         ) : isCover ? (
           <div className="cover-design text-white">
             <div className="cover-title text-4xl font-bold mb-6 tracking-wider">CẨM NANG ĐIỆN TỬ</div>
             <div className="cover-subtitle text-2xl mb-1">CÔNG AN NHÂN DÂN VIỆT NAM</div>
-            <div className="cover-emblem text-6xl mb-1 transform hover:rotate-12 transition-transform duration-300">⭐</div>
+            <div className="emblem-star  flex justify-center text-4xl mb-2"><img className='w-24 h-24' src="/star.svg" alt="" /></div>
             
            
           </div>
         ) : (
-          <div className="chapter-content">
+          <div className="chapter-content w-full max-w-2xl mx-auto">
             <div className="chapter-header mb-1 bg-gray-50 p-2 rounded-lg">
               <div className="chapter-icon text-4xl mb-3">{selectedChapter?.sectionIcon}</div>
               <div className="chapter-info">
@@ -115,6 +144,30 @@ const Book = ({ selectedChapter }) => {
                       <li>Áp dụng hiệu quả trong công tác thực tiễn</li>
                       <li>Tuân thủ nghiêm túc các quy định của pháp luật</li>
                     </ul>
+                  </div>
+                  <div className="flex items-center gap-4 my-4 justify-center">
+                    <button
+                      className={`px-4 py-2 rounded bg-blue-600 text-white font-semibold shadow hover:bg-blue-700 transition ${isReading ? 'opacity-60' : ''}`}
+                      onClick={() => handleReadText(selectedChapter?.content)}
+                      disabled={isReading}
+                    >
+                      {isReading ? 'Đang đọc...' : 'Đọc nội dung'}
+                    </button>
+                    <label className="flex items-center gap-2 text-gray-700">
+                      Tốc độ:
+                      <input
+                        type="range"
+                        min="0.5"
+                        max="2"
+                        step="0.1"
+                        value={speechRate}
+                        onChange={e => setSpeechRate(Number(e.target.value))}
+                        className="accent-blue-600"
+                        style={{width:'80px'}}
+                        disabled={isReading}
+                      />
+                      <span className="w-8 inline-block text-right">{speechRate.toFixed(1)}x</span>
+                    </label>
                   </div>
                 </div>
               )}
@@ -178,7 +231,7 @@ const Book = ({ selectedChapter }) => {
         <HTMLFlipBook
           key={key}
           width={550}
-          height={800}
+          height={570}
           size="stretch"
           minWidth={315}
           maxWidth={1000}

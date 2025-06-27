@@ -9,12 +9,12 @@ const Header = ({ onSearch }) => {
   };
 
   return (
-    <header className="bg-gradient-to-br from-[#c41e3a] to-[#8b0000] text-white px-8 py-4 flex justify-between items-center shadow-lg relative z-50 md:flex-row flex-col md:gap-0 gap-4">
+    <header className="bg-gradient-to-br from-[#c41e3a] to-[#8b0000] text-white px-8 py-2 flex justify-between items-center shadow-lg relative z-50 md:flex-row flex-col md:gap-0 gap-4">
       {/* Left section with logo */}
       <div className="flex items-center">
         <div className="flex items-center gap-4">
           <img 
-            src="/police-logo.svg" 
+            src="/logo.jpg" 
             alt="Công An Việt Nam" 
             className="w-[60px] h-[60px] object-contain bg-white rounded-full p-[5px]" 
           />
@@ -23,7 +23,7 @@ const Header = ({ onSearch }) => {
               CẨM NANG ĐIỆN TỬ
             </h1>
             <p className="m-0 text-sm opacity-90 font-medium md:text-sm text-xs">
-              CÔNG AN NHÂN DÂN VIỆT NAM
+              CÔNG AN TỈNH QUẢNG NINH
             </p>
           </div>
         </div>

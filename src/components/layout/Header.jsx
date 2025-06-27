@@ -12,7 +12,7 @@ const Header = ({ onSearch }) => {
     <header className="flex items-center justify-between px-6 py-4 bg-white shadow-md">
       <div className="flex items-center">
         <div className="flex items-center space-x-4">
-          <img src="/police-logo.svg" alt="Công An Việt Nam" className="w-16 h-16" />
+          <img src="/logo.jpg" alt="Công An Việt Nam" className="w-16 h-16" />
           <div className="flex flex-col">
             <h1 className="text-xl font-bold text-blue-900">CẨM NANG ĐIỆN TỬ</h1>
             <p className="text-sm text-gray-600">CÔNG AN NHÂN DÂN VIỆT NAM</p>

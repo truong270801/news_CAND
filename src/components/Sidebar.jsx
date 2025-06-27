@@ -89,8 +89,8 @@ const Sidebar = ({ onChapterSelect, searchQuery }) => {
     : handbookData;
 
   return (
-    <div className={`w-[350px] bg-gradient-to-b from-gray-50 to-gray-100 border-r-3 border-[#c41e3a] h-[calc(100vh-100px)] overflow-y-auto shadow-[2px_0_15px_rgba(0,0,0,0.15)] scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-[#c41e3a] hover:scrollbar-thumb-[#8b0000] md:max-h-none max-h-[300px] md:w-[350px] w-full transition-all duration-300 ${collapsed ? 'w-0 opacity-0' : 'w-[350px] opacity-100'}`}>
-      <div className="sticky top-0 z-10 p-6 bg-gradient-to-br from-[#c41e3a] to-[#8b0000] text-white border-b-2 border-[#8b0000] shadow-lg">
+    <div className={`w-[350px] bg-gradient-to-b  from-gray-50 to-gray-100  h-[calc(100vh-100px)] overflow-y-auto shadow-[2px_0_15px_rgba(0,0,0,0.15)] scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-[#c41e3a] hover:scrollbar-thumb-[#8b0000] md:max-h-none max-h-[300px] md:w-[350px] w-full transition-all duration-300 ${collapsed ? 'w-0 opacity-0' : 'w-[350px] opacity-100'}`}>
+      <div className="sticky top-0 z-10 p-6 bg-gradient-to-br from-[#EEE5AA] to-[#EEE5AA] text-white border-b-2 border-[#EEE5AA] shadow-lg">
         <h2 className="m-0 text-[1.5rem] font-bold drop-shadow-[2px_2px_4px_rgba(0,0,0,0.3)] flex items-center">
           <span className="mr-3">📚</span>
           Mục lục

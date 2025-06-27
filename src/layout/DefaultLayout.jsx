@@ -13,7 +13,7 @@ const DefaultLayout = ({ children }) => {
       <div className="flex-1 flex">
         <Sidebar collapsed={collapsed} searchQuery={searchQuery} onChapterSelect={setSelectedChapter} />
         <div className="flex-1 flex flex-col">
-          <main className="flex-1 p-6 bg-gray-50 max-h-screen mt-2 ">
+          <main className="flex-1  bg-gray-50 max-h-screen  ">
             {children}
           </main>
         </div>
