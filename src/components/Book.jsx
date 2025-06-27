@@ -87,7 +87,7 @@ const Book = ({ selectedChapter }) => {
     return (
       <div 
         className={`page relative ${isCover ? 'bg-gradient-to-br from-red-600 to-red-800' : 'bg-white'} 
-          p-8 text-center flex flex-col justify-center items-center h-full box-border
+          p-8 text-center flex flex-col justify-center  h-full box-border
           shadow-lg hover:shadow-2xl transition-shadow duration-300
           page-thick-effect`}
         ref={ref}
@@ -112,12 +112,19 @@ const Book = ({ selectedChapter }) => {
             </div>
           </div>
         ) : isCover ? (
-          <div className="cover-design text-white">
+          <div className="cover-design text-white flex flex-col items-center justify-center h-full">
             <div className="cover-title text-4xl font-bold mb-6 tracking-wider">CẨM NANG ĐIỆN TỬ</div>
             <div className="cover-subtitle text-2xl mb-1">CÔNG AN NHÂN DÂN VIỆT NAM</div>
-            <div className="emblem-star  flex justify-center text-4xl mb-2"><img className='w-24 h-24' src="/star.svg" alt="" /></div>
-            
-           
+            <div className="emblem-star flex justify-center text-4xl mb-2">
+              <img className='w-24 h-24' src="/star.svg" alt="" />
+            </div>
+            <div className="flex flex-wrap justify-center items-center gap-4 mt-8 w-full">
+              <img src="/banner-pa05.png" alt="PA05" className="h-14 object-contain bg-white rounded shadow p-1" />
+              <img src="/banner-pa08_1.png" alt="PA08" className="h-14 object-contain bg-white rounded shadow p-1" />
+              <img src="/bocongan_1.png" alt="Bộ Công An" className="h-14 object-contain bg-white rounded shadow p-1" />
+              <img src="/fb-cat.png" alt="Công An Tỉnh" className="h-14 object-contain bg-white rounded shadow p-1" />
+              <img src="/phong-chong-toi-pham-te-nan-ma-tuy-1.png" alt="Phòng chống ma tuý" className="h-14 object-contain bg-white rounded shadow p-1" />
+            </div>
           </div>
         ) : (
           <div className="chapter-content w-full max-w-2xl mx-auto">
@@ -253,7 +260,35 @@ const Book = ({ selectedChapter }) => {
           <Page number={1} />
           <Page number={2} />
           <Page number={3} />
-          <Page number={4} />
+          <div className="page bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col justify-center items-center h-full p-8 relative page-thick-effect" style={{borderRadius:'12px', boxShadow:'0 8px 24px 0 rgba(139,69,19,0.15)', borderLeft:'8px solid #e5e7eb'}}>
+            <div className="text-2xl font-bold text-gray-700 mb-6">ĐƠN VỊ PHỐI HỢP</div>
+            <div className="flex flex-wrap justify-center items-center gap-4 w-full mb-8">
+              <img src="/banner-pa05.png" alt="PA05" className="h-14 object-contain bg-white rounded shadow p-1" />
+              <img src="/banner-pa08_1.png" alt="PA08" className="h-14 object-contain bg-white rounded shadow p-1" />
+              <img src="/bocongan_1.png" alt="Bộ Công An" className="h-14 object-contain bg-white rounded shadow p-1" />
+              <img src="/fb-cat.png" alt="Công An Tỉnh" className="h-14 object-contain bg-white rounded shadow p-1" />
+              <img src="/phong-chong-toi-pham-te-nan-ma-tuy-1.png" alt="Phòng chống ma tuý" className="h-14 object-contain bg-white rounded shadow p-1" />
+            </div>
+            <div className="text-gray-500 text-sm mb-6">Cảm ơn các đơn vị đã phối hợp xây dựng nội dung</div>
+            <div className="w-full max-w-2xl bg-white/90 rounded-xl p-6 text-gray-700 text-sm shadow-lg border border-blue-100 mt-2 flex flex-col items-center">
+              <div className="font-bold text-lg text-blue-900 text-center mb-3 flex items-center gap-2">
+                <svg xmlns='http://www.w3.org/2000/svg' className='inline w-7 h-7 text-blue-700' fill='none' viewBox='0 0 24 24' stroke='currentColor'><circle cx='12' cy='12' r='10' strokeWidth='2' /><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M8 12h8M12 8v8' /></svg>
+                TRANG THÔNG TIN ĐIỆN TỬ CÔNG AN QUẢNG NINH
+              </div>
+              <div className="mb-1"><b className="text-blue-800">Cơ quan chủ quản:</b> Bộ Công an; <b className="text-blue-800">Cơ quan thiết lập Trang TTTĐT:</b> Công an tỉnh Quảng Ninh</div>
+              <div className="mb-1"><b className="text-blue-800">Chịu trách nhiệm:</b> Đại tá Vũ Thanh Tùng - Phó Giám đốc Công an tỉnh</div>
+              <div className="mb-1"><b className="text-blue-800">Địa chỉ:</b> Tổ 6, Khu 9B, Phường Bãi Cháy, TP Hạ Long, tỉnh Quảng Ninh</div>
+              <div className="mb-1"><b className="text-blue-800">Điện thoại:</b> 069.2808.100; <b className="text-blue-800">Fax:</b> 0203.3833686; <b className="text-blue-800">Email:</b> <a href='mailto:cat@quangninh.gov.vn' className='underline text-blue-700'>cat@quangninh.gov.vn</a></div>
+              <div className="mt-2 italic text-gray-600 text-center">Khi sử dụng lại thông tin từ Website này, vui lòng ghi rõ nguồn<br/><span className="font-semibold text-blue-900">“Trang thông tin điện tử Công an Quảng Ninh”</span></div>
+              <div className="mt-4 flex flex-col items-center">
+                <div className="flex items-center gap-2 text-blue-800 font-bold text-base">
+                  <svg xmlns='http://www.w3.org/2000/svg' className='inline w-6 h-6 text-green-600' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M5 13l4 4L19 7' /></svg>
+                  CHỨNG NHẬN TÍN NHIỆM MẠNG
+                </div>
+                <div className="text-xs text-gray-500 mt-1">CỦA TRANG THÔNG TIN ĐIỆN TỬ CÔNG AN QUẢNG NINH</div>
+              </div>
+            </div>
+          </div>
         </HTMLFlipBook>
       </div>
     </BookErrorBoundary>
